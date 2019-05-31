@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/sebas/Desktop/Minecraft Server Stuff/dependencies/EssentialsX-2.16.1.156.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sebas/Desktop/Minecraft Server Stuff/dependencies/EssentialsXChat-2.16.1.156.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sebas/Desktop/Minecraft Server Stuff/dependencies/GroupManager.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sebas/Desktop/Minecraft Server Stuff/dependencies/spigot-1.13.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sebas/Desktop/Minecraft Server Stuff/dependencies/Vault.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sebas/Desktop/Minecraft Server Stuff/dependencies/worldedit-bukkit-7.0.0-rc-2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sebas/Desktop/Minecraft Server Stuff/dependencies/worldguard-legacy-7.0.0-rc-1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

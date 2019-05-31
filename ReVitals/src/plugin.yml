@@ -1,0 +1,31 @@
+name: ReVitals
+version: 1.0
+description: A rendition of the old plugin "Vitals" developed by pzxc0 and stevenmlittle
+author: nifty
+main: me.nifty.revitals.Main
+api-version: 1.13
+
+commands:
+  rename:
+    description: Rename an item.
+    aliases: [setname]
+    permission: revitals.rename
+  clearname:
+    description: Remove the name on an item.
+    aliases: [removename]
+    permission: revitals.rename
+  relore:
+    description: Relore an item. Use "\n" to add multiple lines.
+    aliases: [setlore]
+    permission: revitals.lore
+  addlore:
+    description: Add a line of lore. Use "\n" to add multiple lines.
+    permission: revitals.lore
+  clearlore:
+    description: Remove specific/all lines of lore on an item.
+    aliases: [removelore]
+    permission: revitals.lore
+  cleartags:
+    description: Remove all NBT's from an item.
+    aliases: [removetags]
+    permission: revitals.admin
