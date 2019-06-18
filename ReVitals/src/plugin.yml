@@ -4,28 +4,111 @@ description: A rendition of the old plugin "Vitals" developed by pzxc0 and steve
 author: nifty
 main: me.nifty.revitals.Main
 api-version: 1.13
+depend: [Vault]
 
 commands:
+  nickname:
+    description: Change your display name.
+    aliases: nick
+    permission: revitals.nickname
   rename:
-    description: Rename an item.
-    aliases: [setname]
-    permission: revitals.rename
-  clearname:
-    description: Remove the name on an item.
-    aliases: [removename]
+    description: Change the name of an item.
+    aliases: setname
     permission: revitals.rename
   relore:
-    description: Relore an item. Use "\n" to add multiple lines.
-    aliases: [setlore]
+    description: Change the lore of an item. Use "\n" to add multiple lines.
+    aliases: setlore
     permission: revitals.lore
-  addlore:
-    description: Add a line of lore. Use "\n" to add multiple lines.
-    permission: revitals.lore
-  clearlore:
-    description: Remove specific/all lines of lore on an item.
-    aliases: [removelore]
-    permission: revitals.lore
-  cleartags:
-    description: Remove all NBT's from an item.
-    aliases: [removetags]
-    permission: revitals.admin
+  cleartag:
+    description: Clears NBT's from an item.
+    aliases: clearmeta
+    permission: revitals.cleartag
+  copytag:
+    description: Copies NBT's from an item to your metaboard.
+    aliases: copymeta
+    permission: revitals.metaboard
+  pastetag:
+    description: Pastes NBT's from your metaboard to an item.
+    aliases: pastemeta
+    permission: revitals.metaboard
+  metaboard:
+    description: Displays the contents of your metaboard.
+    permission: revitals.metaboard
+permissions:
+  revitals.*:
+    description: Gives access to all ReVitals commands.
+  revitals.rename:
+    description: Allows you to change the name of items.
+  revitals.lore:
+    description: Allows you to change the lore of items.
+  revitals.cleartag:
+    description: Allows you to clear the safe NBT's from an item (name, lore)
+  revitals.metaboard:
+    description: Allows you to access safe clipboard-related commands (copy/paste).
+  revitals.meta:
+    description: Gives access to all meta-related ReVitals commands.
+    children:
+      revitals.rename: true
+      revtials.lore: true
+      revitals.metaboard: true
+      revitals.cleartag: true
+  revitals.emmyconsume:
+    description: Allows you to consume an emerald to obtain a speed buff.
+  revitals.wanderer:
+    description: Default rank upon joining the server.
+    default: true
+  revitals.citizen:
+    description: Rank 1
+    default: false
+  revitals.noble:
+    description: Rank 2
+    default: false
+  revitals.merchant:
+    description: Rank 3
+    default: false
+  revitals.knight:
+    description: Rank 4
+    default: false
+  revitals.baron:
+    description: Rank 5
+    default: false
+  revitals.duke:
+    description: Rank 6
+    default: false
+  revitals.chancellor:
+    description: Rank 7
+    default: false
+  revitals.viceroy:
+    description: Rank 8
+    default: false
+  revitals.guardian:
+    description: Rank 9
+    default: false
+  revitals.avatar:
+    description: Rank 10
+    default: false
+  revitals.owner:
+    description: rank owner
+    default: false
+  revitals.admin:
+    description: rank admin
+    default: false
+  revitals.mod:
+    description: rank mod
+    default: false
+  revitals.trusted:
+    description: rank trusted
+    default: false
+  revitals.sapphire:
+    description: donor 1
+    default: false
+  revitals.ruby:
+    description: donor 2
+    default: false
+  revitals.dragonstone:
+    description: donor 3
+    default: false
+  revitals.veteran:
+    description: 50 hours+ on old server
+    default: false
+  

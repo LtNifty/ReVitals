@@ -16,6 +16,7 @@ public abstract class SignListener implements Listener {
 	@EventHandler
 	public abstract void onPlayerInteractEvent(PlayerInteractEvent e);
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInventoryClickEvent(InventoryClickEvent e) {
 		if (e.getInventory().getName().equalsIgnoreCase("§5§lBrewing Guild Perks") || e.getInventory().getName().equalsIgnoreCase("§2§lFarming Guild Perks") || e.getInventory().getName().equalsIgnoreCase("§a§lLogging Guild Perks") || e.getInventory().getName().equalsIgnoreCase("§4§lRancher Guild Perks") || e.getInventory().getName().equalsIgnoreCase("§d§lEnchanting Guild Perks") || e.getInventory().getName().equalsIgnoreCase("§b§lFishing Guild Perks") || e.getInventory().getName().equalsIgnoreCase("§7§lMining Guild Perks") || e.getInventory().getName().equalsIgnoreCase("§8§lSlayer Guild Perks"))

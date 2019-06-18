@@ -28,25 +28,25 @@ public class RenameCommand implements CommandExecutor {
 		ItemStack hand = p.getInventory().getItemInMainHand();
 
 		if (p.hasPermission("revitals.rename")) {
-			if (hand.getType() != Material.AIR) {
-				if (args.length != 0) {
+			if (args.length != 0) {
+				if (hand.getType() != Material.AIR) {
 					ItemMeta handMeta = hand.getItemMeta();
 					String str = "";
-					
 					for (int i = 0; i < args.length; i++)
 						str += ChatColor.translateAlternateColorCodes('&', args[i]).concat(" ");
-					str.trim();
-					
+					str = str.trim();
+					if (ChatColor.stripColor(str).length() > 30) {
+						p.sendMessage("§cToo many characters (Exceeds 30 char limit).");
+						return false;
+					}
 					handMeta.setDisplayName(str);
 					hand.setItemMeta(handMeta);
 					p.sendMessage("§aSuccess!");
-				}
-				else
-					p.sendMessage("§cMissing argument for §e<§6text§e>§c." +
-							"\n§cUsage: §6/rename §e<§6text§e>");
-			}
-			else
-				p.sendMessage("§cYou must have an item in your hand!");
+				} else
+					p.sendMessage("§cYou must have an item in your hand.");
+			} else
+				p.sendMessage("§cMissing argument for §e<§6text§e>§c." +
+						"\n§cUsage: §6/" + label + " §e<§6text§e>");
 		} else
 			p.sendMessage("§4You do not have access to that command.");
 

@@ -22,11 +22,11 @@ public class FallDamageListener implements Listener {
 			Material landOn = p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType();
 			if (e.getCause() == DamageCause.FALL) {
 				UUID pID = p.getUniqueId();
-				if (Main.safeFall.contains(pID)) {
+				if (landOn == Material.SPONGE || landOn == Material.EMERALD_BLOCK) e.setCancelled(true);
+				else if (Main.safeFall.contains(pID)) {
 					Main.safeFall.remove(p.getUniqueId());
 					e.setCancelled(true);
 				}
-				else if (landOn == Material.SPONGE || landOn == Material.EMERALD_BLOCK) return;
 				else if (p.getGameMode() != GameMode.CREATIVE && p.isFlying()) {
 					p.setFlying(false);
 					return;

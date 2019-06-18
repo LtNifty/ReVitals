@@ -21,11 +21,7 @@ import org.bukkit.potion.PotionType;
 
 public class GuildSignListeners extends SignListener {
 
-	private Main plugin;
-
-	public GuildSignListeners(Main plugin) {
-		this.plugin = plugin;
-	}
+	private Main plugin = Main.getPlugin(Main.class);
 
 	@EventHandler
 	public void onSignChangeEvent(SignChangeEvent e) {

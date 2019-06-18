@@ -81,7 +81,7 @@ public class PvPListener implements Listener {
 		ItemStack maxItem = null;
 
 			for (ItemStack item : p.getInventory()) {
-				p.sendMessage("Found " + item + "! Price: " + ess.getWorth().getPrice(ess, item));
+				p.sendMessage("Found " + item + "! Price: " + ess.getWorth());
 				if (keepItems.contains(item) == false && ess.getWorth().getPrice(ess, item).compareTo(max) > 1) {
 					p.sendMessage("new max found; PRICE: " + ess.getWorth().getPrice(ess, item));
 					maxItem = item;
