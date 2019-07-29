@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class WorldTime {
 
 	private Main plugin = Main.getPlugin(Main.class);
+	private String timeMsg = ChatColor.GREEN + "[Worldtime] " + ChatColor.AQUA;
 
 	public WorldTime() {
 		new BukkitRunnable() {
@@ -16,21 +17,24 @@ public class WorldTime {
 				long worldTime = Bukkit.getServer().getWorld("6d7").getTime();
 
 				if (Main.hasPlayers()) {
-					if (worldTime == 0) {
-						Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "[Worldtime]" + ChatColor.AQUA + " A new day has started.");
-						dailyReward();
-					}
+					if (worldTime == 0)
+						for (Player p : Bukkit.getOnlinePlayers()) {
+							p.sendMessage(timeMsg + "A new day has started.");
+							dailyReward();
+						}
 					else if (worldTime == 12000)
-						Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "[Worldtime]" + ChatColor.AQUA + " Darkness begins to fall.");
+						for (Player p : Bukkit.getOnlinePlayers())
+							p.sendMessage(timeMsg + "Darkness begins to fall.");
 					else if (worldTime == 13000)
-						Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "[Worldtime]" + ChatColor.AQUA + " Night time has fallen.");
+						for (Player p : Bukkit.getOnlinePlayers())
+							p.sendMessage(timeMsg + "Night time has fallen.");
 					else if (worldTime == 23000)
-						Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "[Worldtime]" + ChatColor.AQUA + " The suns light starts to become visable.");
+						for (Player p : Bukkit.getOnlinePlayers())
+							p.sendMessage(timeMsg + "The sun's light starts to become visible.");
 				}
 			}
-		}.runTaskTimerAsynchronously(this.plugin, 1, 1);
+		}.runTaskTimerAsynchronously(this.plugin, 0, 2);
 	}
-
 	private void dailyReward() {
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 			Main.economy.depositPlayer(p, 500);

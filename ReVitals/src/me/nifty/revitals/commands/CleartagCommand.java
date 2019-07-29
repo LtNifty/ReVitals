@@ -4,12 +4,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,12 +28,13 @@ public class CleartagCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("Only players may execute this command!");
+			sender.sendMessage(ChatColor.DARK_RED + "Only players may execute this command!");
 			return true;
 		}
 
 		Player p = (Player) sender;
 		ItemStack hand = p.getInventory().getItemInMainHand();
+		String usage = "\n§cUsage: §6/" + label + " §e<§6name§e|§6lore§e|§6enchants§e|§6all§e> §e[§6line#§e/§6enchantname§e]";
 
 		if (p.hasPermission("revitals.clipboard")) {
 			if (args.length != 0) {
@@ -43,7 +47,7 @@ public class CleartagCommand implements CommandExecutor {
 							if (handMeta.hasDisplayName())
 								handMeta.setDisplayName(null);
 							else {
-								p.sendMessage("§cThere's no name to remove.");
+								p.sendMessage(ChatColor.RED + "There's no name to remove.");
 								return false;
 							}
 							break;
@@ -54,8 +58,7 @@ public class CleartagCommand implements CommandExecutor {
 										try {
 											lore.set(Integer.parseInt(args[i]) - 1, null);
 										} catch (Exception e) {
-											p.sendMessage("§cInvalid value (\'" + args[i] + "\') for §e[§6line#§e]§c (Does not match an existing line #)." 
-													+ "\n§cUsage: §6/cleartags §e<§6name§e|§6lore§e|§6enchants§e|§6all§e> §e[§6line#'s§e/§6enchantnames§e]");
+											p.sendMessage(ChatColor.RED + "Invalid value (\'" + args[i] + "') for §e[§6line#§e]§c (Does not match an existing line #)." + usage);
 											return false;
 										}
 									lore.removeAll(Collections.singleton(null));
@@ -63,54 +66,65 @@ public class CleartagCommand implements CommandExecutor {
 								} else
 									handMeta.setLore(null);
 							} else {
-								p.sendMessage("§cThere's no lore to remove."); 
+								p.sendMessage(ChatColor.RED + "There's no lore to remove."); 
 								return false;
 							}
 							break;
 						case "enchants":
 							if (p.hasPermission("revitals.*")) {
 								if (handMeta.hasEnchants()) {
-									if (args.length != 1);
-//										for (int i = 1; i < args.length; i++)
-//											handMeta.removeEnchant(Enchantment.getByName(args[i]));
+									if (args.length != 1)
+										for (int i = 1; i < args.length; i++) {
+											try {
+												if (!handMeta.removeEnchant(EnchantmentWrapper.getByKey(NamespacedKey.minecraft(args[i])))) {
+													p.sendMessage(ChatColor.RED + args[i] + " is not enchanted on the item!" + usage);
+													return false;
+												}
+											} catch (IllegalArgumentException e) {
+												p.sendMessage(ChatColor.RED + "Invalid string (\"" + args[i] + "\") for enchantment (Does not match a valid enchantment name)." + usage);
+												return false;
+											}
+										}
 									else
 										for (Entry<Enchantment, Integer> entry : handMeta.getEnchants().entrySet())
 											handMeta.removeEnchant(entry.getKey());
 								} else {
-									p.sendMessage("§cThere's no enchantments to remove.");
+									p.sendMessage(ChatColor.RED + "There's no enchants to remove.");
 									return false;
 								}
 							} else {
-								p.sendMessage("§4You do not have access to that command.");
+								p.sendMessage(ChatColor.DARK_RED + "You do not have access to that command.");
 								return false;
 							}
 							break;
 						case "all":
 							if (p.hasPermission("revitals.*")) {
-								if (CraftItemStack.asNMSCopy(hand).getTag() != null)
-									handMeta = null;
+								if (CraftItemStack.asNMSCopy(hand).getTag() != null) {
+									handMeta.setDisplayName(null);
+									handMeta.setLore(null);
+									for (Entry<Enchantment, Integer> entry : handMeta.getEnchants().entrySet())
+										handMeta.removeEnchant(entry.getKey());
+								}
 								else {
-									p.sendMessage("§cThere's no tags to remove.");
+									p.sendMessage(ChatColor.RED + "There's no tags to remove.");
 									return false;
 								}
 							} else {
-								p.sendMessage("§4You do not have access to that command.");
+								p.sendMessage(ChatColor.DARK_RED + "You do not have access to that command.");
 								return false;
 							}
 							break;
 						}
 						hand.setItemMeta(handMeta);
-						p.sendMessage("§aSuccess!");
+						p.sendMessage(ChatColor.GREEN + "Success!");
 					} else
-						p.sendMessage("§cYou must have an item in your hand.");
+						p.sendMessage(ChatColor.RED + "You must be holding an item.");
 				} else
-					p.sendMessage("§cInvalid argument."
-							+ "\n§cUsage: §6/" + label + " §e<§6name§e|§6lore§e|§6enchants§e|§6all§e> §e[§6line#§e/§6enchantname§e]");
+					p.sendMessage(ChatColor.RED + "Invalid argument." + usage);
 			} else
-				p.sendMessage("§cCheck argument count."
-						+ "\n§cUsage: §6/" + label + " §e<§6name§e|§6lore§e|§6enchants§e|§6all§e> §e[§6line#§e/§6enchantname§e]");
+				p.sendMessage(ChatColor.RED + "Check argument count." + usage);
 		} else
-			p.sendMessage("§4You do not have access to that command.");
+			p.sendMessage(ChatColor.DARK_RED + "You do not have access to that command.");
 		return false;
 	}
 }

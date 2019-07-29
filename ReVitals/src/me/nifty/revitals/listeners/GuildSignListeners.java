@@ -1,4 +1,4 @@
-package me.nifty.revitals;
+package me.nifty.revitals.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,8 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
+
+import me.nifty.revitals.Main;
 
 public class GuildSignListeners extends SignListener {
 

@@ -1,0 +1,87 @@
+######################################
+# _____   __      ___ _        _     #
+#|  __ \  \ \    / (_) |      | |    #
+#| |__) |__\ \  / / _| |_ __ _| |___ #
+#|  _  // _ \ \/ / | | __/ _` | / __|#
+#| | \ \  __/\  /  | | || (_| | \__ \#
+#|_|  \_\___| \/   |_|\__\__,_|_|___/#
+#                                    #
+######################################
+                                     
+# Developed && Bug Tested by: LtNifty
+
+#--------------------------------------------------------------#
+#                          M O D U L E S                       # 
+#--------------------------------------------------------------#
+
+# Makes stepping on an emerald block give you a speed buff
+emerald-block-buff: true
+
+# Allows players to consume feathers in return for flight
+#feather-fly: true
+
+# Makes normal sponge blocks bounce players high into the air && negates all fall damage.
+sponge-bounce: true
+
+# Fall damage is negated when players land on these blocks. Leave one space empty for no blocks to negate.
+#negate-fall-blocks:
+#  -
+negate-fall-blocks:
+  - minecraft:sponge
+  - minecraft:emerald_block
+
+# Forces players to use "fishing bait" whenever they use the fishing rod.
+#force-fishing-bait: true
+
+# Would you like the server to use "better chainmail"?
+# If true, chainmail will act as another "tier" of armor, much like how Leather < Iron < Diamond; Chain armor is better than diamond.
+# If false, your server doesn't use chain armor or you're keeping it at it's in-game default.
+#better-chainmail: true
+
+# Would you like players to hold server-wide auctions using /auction?
+#auctions: true
+
+#--------------------------------------------------------------#
+#                           R A N K S                          #
+#--------------------------------------------------------------#
+
+# How many hours of playtime should a player have until they become a citizen?
+# Leave as 0 if you want the default rank to be Citizen.
+citizen-time-req: 2
+
+# Veteran rank is hardcoded to work solely with 7d6.
+veteran:
+  # Choose to enable the Veteran rank feature. Unless you know exactly what you're doing, set this to "false".
+  use: true
+# How many HOURS should the original player have to be considered a Veteran? Set to 0 if any playtime is applicable. If the above is false, then ignore this.
+  time-req: 0
+
+# Indicate below how much currency is required to rank up in the NORMAL rank ladder.
+# Refrain from using commas, decimals, and currency symbols.
+rank_cost:
+  Wanderer: 0
+  Citizen: 0
+  Noble: 10000
+  Merchant: 25000
+  Knight: 50000
+  Baron: 100000
+  Duke: 250000
+  Chancellor: 500000
+  Viceroy: 1000000
+  Guardian: 2500000
+  Avatar: 10000000
+
+# Indicate below how much USD is required to rank up in the DONOR rank ladder.
+# Refrain from using commas, decimals, and currency symbols.
+donor_rank_cost:
+  Sapphire: 5
+  Ruby: 15
+  Dragonstone: 30
+
+#--------------------------------------------------------------#
+#                           O T H E R                          #
+#--------------------------------------------------------------#
+
+# Set the locale you'd like the server to use. By default, it will be wherever the server is being hosted from. Please only uncomment ONE locale.
+locale: en
+

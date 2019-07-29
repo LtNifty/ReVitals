@@ -34,6 +34,9 @@ commands:
   metaboard:
     description: Displays the contents of your metaboard.
     permission: revitals.metaboard
+  clearboard:
+    description: Clears NBT's from your metaboard.
+    permission: revitals.metaboard
 permissions:
   revitals.*:
     description: Gives access to all ReVitals commands.
@@ -56,7 +59,7 @@ permissions:
     description: Allows you to consume an emerald to obtain a speed buff.
   revitals.wanderer:
     description: Default rank upon joining the server.
-    default: true
+    default: false
   revitals.citizen:
     description: Rank 1
     default: false

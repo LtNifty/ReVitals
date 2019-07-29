@@ -1,9 +1,7 @@
 package me.nifty.revitals;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.nifty.revitals.commands.ClearboardCommand;
 import me.nifty.revitals.commands.CleartagCommand;
 import me.nifty.revitals.commands.CopytagCommand;
 import me.nifty.revitals.commands.MetaboardCommand;
@@ -22,17 +21,18 @@ import me.nifty.revitals.commands.ReloreCommand;
 import me.nifty.revitals.commands.RenameCommand;
 import me.nifty.revitals.listeners.ChatListener;
 import me.nifty.revitals.listeners.EmeraldBlockListener;
-import me.nifty.revitals.listeners.EmeraldListener;
 import me.nifty.revitals.listeners.FallDamageListener;
+import me.nifty.revitals.listeners.GuildSignListeners;
 import me.nifty.revitals.listeners.ImmegrationListener;
+import me.nifty.revitals.listeners.PvPListener;
 import me.nifty.revitals.listeners.SpongeListener;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 
 public class Main extends JavaPlugin {
 
-	public static ArrayList<UUID> safeFall = new ArrayList<UUID>();
-	public static HashMap<UUID, PlayerDataHandler> onlinePD = new HashMap<UUID, PlayerDataHandler>();
 	public static Economy economy = null;
+	public static Permission permission = null;
 
 	@Override
 	public void onEnable() {
@@ -43,24 +43,27 @@ public class Main extends JavaPlugin {
 		new PastetagCommand(this);
 		new CleartagCommand(this);
 		new NicknameCommand(this);
+		new ClearboardCommand(this);
 		Bukkit.getServer().getPluginManager().registerEvents(new GuildSignListeners(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new SpongeListener(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new EmeraldBlockListener(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new FallDamageListener(), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new EmeraldListener(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ChatListener(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ImmegrationListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new PvPListener(), this);
 		new Sidebar();
 		new WorldTime();
-		this.createUserData();
+		this.createDirs();
+		this.playtime();
 		setupEconomy();
+		setupPermissions();
 	}
-	
+
 	@Override
 	public void onDisable() {
 	}
-	
-	public void createUserData() {
+
+	public void createDirs() {
 		if (!this.getDataFolder().exists())
 			this.getDataFolder().mkdir();
 		File userData = new File(this.getDataFolder(), "userdata");
@@ -69,18 +72,36 @@ public class Main extends JavaPlugin {
 		}
 	}
 
+	// playtime is updated every real-time minute.
+	// a playime of 72 equates to 72 minutes on the server.
+	public void playtime() {
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+			@Override
+			public void run() {
+				if (Main.hasPlayers())
+					for (Player player : Bukkit.getOnlinePlayers()) {
+						PlayerDataHandler pd = new PlayerDataHandler(player);
+						pd.incNewPlaytime();
+						if (getConfig().getInt("citizen-time-req") != 0 && pd.getConfig().getInt("Updateables.New Playtime") == getConfig().getInt("citizen-time-req")) {
+							player.sendMessage(ChatColor.GOLD + "Your playtime has reached 2 hours. You are now a Citizen!");
+							Main.permission.playerAddGroup(null, player, "Citizen");
+							Main.permission.playerRemoveGroup(null, player, "Wanderer");
+						}
+
+					}
+			}
+		},0, 20 * 60);
+	}
+
 	//this can be used to stop things when there is no players on
 	//good for keeping console clean
 	public static boolean hasPlayers() {
-		if (Bukkit.getServer().getOnlinePlayers().size() == 0)
-			return false;
-		else
-			return true;
+		return Bukkit.getServer().getOnlinePlayers().size() == 0;
 	}
 
 	public static String getGroup(Player p, boolean useColor) {
 		String s = "";
-		
+
 		if (p.hasPermission("revitals.owner")) {
 			if (useColor)
 				return "§c§lO§6§lw§e§ln§a§le§b§lr§r";
@@ -226,5 +247,14 @@ public class Main extends JavaPlugin {
 		}
 
 		return (economy != null);
+	}
+
+	private boolean setupPermissions()
+	{
+		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+		if (permissionProvider != null) {
+			permission = permissionProvider.getProvider();
+		}
+		return (permission != null);
 	}
 }

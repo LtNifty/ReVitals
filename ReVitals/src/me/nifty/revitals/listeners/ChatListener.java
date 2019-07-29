@@ -1,5 +1,6 @@
 package me.nifty.revitals.listeners;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +13,6 @@ public class ChatListener implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
-		e.setFormat(Main.getSuperGroupTag(p, true) + Main.getGroup(p, true) + " " + p.getDisplayName() + "§r: " + Main.unicize(e.getMessage()));
+		e.setFormat(Main.getSuperGroupTag(p, true) + Main.getGroup(p, true) + " " + p.getDisplayName() + "§r: " + Main.unicize(ChatColor.translateAlternateColorCodes('&', e.getMessage())));
 	}	
 }

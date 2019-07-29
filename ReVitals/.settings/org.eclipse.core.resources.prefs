@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-encoding//src/me/nifty/revitals/GuildSignListeners.java=UTF-8
-encoding//src/me/nifty/revitals/SignListener.java=UTF-8
+encoding//src/me/nifty/revitals/listeners/GuildSignListeners.java=UTF-8
+encoding//src/me/nifty/revitals/listeners/SignListener.java=UTF-8

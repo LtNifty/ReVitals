@@ -24,12 +24,13 @@ public class ReloreCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("Only players may execute this command!");
+			sender.sendMessage(ChatColor.DARK_RED + "Only players may execute this command!");
 			return true;
 		}
 
 		Player p = (Player) sender;
 		ItemStack hand = p.getInventory().getItemInMainHand();
+		String usage = "\n§cUsage: §6/" + label + " §e<§6text§e>";
 
 		if (p.hasPermission("revitals.lore")) {
 			if (args.length != 0) {
@@ -48,25 +49,22 @@ public class ReloreCommand implements CommandExecutor {
 					if (!(lore.size() > 10)) {
 						for (String s : lore)
 							if (ChatColor.stripColor(s).length() > 30) {
-								p.sendMessage("§cToo many characters (\"" + s.substring(0, 7) + "§r§c...\" exceeds 30 char limit).");
+								p.sendMessage(ChatColor.RED + "Too many characters (\"" + s.substring(0, 7) + ChatColor.RED + "...\" exceeds 30 char limit).");
 								return false;
 							}
 					} else {
-						p.sendMessage("§cToo many lines of lore (Exceeds 10 line limit).");
+						p.sendMessage(ChatColor.RED + "Too many lines of lore (Exceeds 10 line limit).");
 						return false;
 					}
 					handMeta.setLore(lore);
 					hand.setItemMeta(handMeta);
-					p.sendMessage("§aSuccess!");
+					p.sendMessage(ChatColor.GREEN + "Success!");
 				} else
-					p.sendMessage("§cYou must have an item in your hand.");
+					p.sendMessage(ChatColor.RED + "You must be holding an item.");
 			} else
-				p.sendMessage("§cMissing argument for §e<§6text§e>§c." +
-						"\n§cUsage: §6/" + label + " §e<§6text§e>");
-
+				p.sendMessage(ChatColor.RED + "Check argument count." + usage);
 		} else
-			p.sendMessage("§4You do not have access to that command.");
-
+			p.sendMessage(ChatColor.DARK_RED + "You do not have access to that command.");
 		return false;
 	}
 }

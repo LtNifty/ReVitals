@@ -20,12 +20,13 @@ public class RenameCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("Only players may execute this command!");
+			sender.sendMessage(ChatColor.DARK_RED + "Only players may execute this command!");
 			return true;
 		}
 
 		Player p = (Player) sender;
 		ItemStack hand = p.getInventory().getItemInMainHand();
+		String usage = "\n§cUsage: §6/" + label + " §e<§6text§e>";
 
 		if (p.hasPermission("revitals.rename")) {
 			if (args.length != 0) {
@@ -36,20 +37,18 @@ public class RenameCommand implements CommandExecutor {
 						str += ChatColor.translateAlternateColorCodes('&', args[i]).concat(" ");
 					str = str.trim();
 					if (ChatColor.stripColor(str).length() > 30) {
-						p.sendMessage("§cToo many characters (Exceeds 30 char limit).");
+						p.sendMessage(ChatColor.RED + "Too many characters (Exceeds 30 char limit).");
 						return false;
 					}
 					handMeta.setDisplayName(str);
 					hand.setItemMeta(handMeta);
-					p.sendMessage("§aSuccess!");
+					p.sendMessage(ChatColor.GREEN + "Success!");
 				} else
-					p.sendMessage("§cYou must have an item in your hand.");
+					p.sendMessage(ChatColor.RED + "You must be holding an item.");
 			} else
-				p.sendMessage("§cMissing argument for §e<§6text§e>§c." +
-						"\n§cUsage: §6/" + label + " §e<§6text§e>");
+				p.sendMessage(ChatColor.RED + "Check argument count." + usage);
 		} else
-			p.sendMessage("§4You do not have access to that command.");
-
+			p.sendMessage(ChatColor.DARK_RED + "You do not have access to that command.");
 		return false;
 	}
 }
